@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scopechat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Scopechat <span class="beta">Beta</span></h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search token...">
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li id="portfolio-link">Portfolio <span class="new">NEW</span></li>
+                    <li id="swap-link">Swap</li>
+                    <li id="find-token-link">Find Token</li>
+                    <li id="new-chat-link">New Chat</li>
+                    <li id="alerts-link">Alerts</li>
+                    <li id="narratives-link">Narratives</li>
+                    <li id="tutorial-link">Tutorial</li>
+                </ul>
+            </nav>
+            <!-- Sidebar content (unchanged) -->
+        </aside>
+
+        <main class="main-content">
+            <div id="portfolio-content" class="content-section">
+                <h2>Portfolio</h2>
+                <p>This is the portfolio content.</p>
+            </div>
+            <div id="swap-content" class="content-section">
+                <h2>Swap</h2>
+                <p>This is the swap content.</p>
+            </div>
+            <div id="find-token-content" class="content-section">
+                <h2>Find Token</h2>
+                <p>This is the find token content.</p>
+            </div>
+
+           <div id="new-chat-content" class="content-section">
+            <h2>New Chat</h2>
+            
+            <!-- 推荐问题按钮 -->
+            <div id="recommended-questions" class="recommended-questions">
+                <button class="question-btn">请生成一份分析报告，分析代币OM在Ethereum上的主要看涨和看跌指标</button>
+                <button class="question-btn">对比我的项目与他人项目之间的各项指标</button>
+                <button class="question-btn">给我推荐一些web3领域优秀的项目</button>
+                <button class="question-btn">给我一份以太坊网络上UNI代币的投资报告</button>
+            </div>
+
+            <!-- 聊天对话框 -->
+            <div id="chat-box" class="chat-box">
+                <!-- 消息会动态添加到这里 -->
+            </div>
+
+            <!-- 聊天输入区 -->
+            <div class="chat-input-section">
+                <input type="text" id="chat-input" placeholder="Type your message here...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+
+            <div id="alerts-content" class="content-section">
+                <h2>Alerts</h2>
+                <p>This is the alerts content.</p>
+            </div>
+            <div id="narratives-content" class="content-section">
+                <h2>Narratives</h2>
+                <p>This is the narratives content.</p>
+            </div>
+            <div id="tutorial-content" class="content-section">
+                <h2>Tutorial</h2>
+                <p>This is the tutorial content.</p>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.13/lib/marked.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
