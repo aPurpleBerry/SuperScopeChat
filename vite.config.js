@@ -8,8 +8,16 @@ export default defineConfig({
       '/rootdata':{
         target: 'https://api.rootdata.com/open/ser_inv',
         changeOrigin: true,
-        rewrite: (path)=>path.replace(/^\/rootdata/, '')
-      }
+        rewrite: (path)=>path.replace(/^\/rootdata/, ''),
+        secure: true  // 确保代理使用 HTTPS 请求
+      },
+      '/gecko':{
+        target: 'https://api.coingecko.com/api/v3/simple/price',
+        changeOrigin: true,
+        // secure: false,  // 确保代理使用 HTTPS 请求
+        // protocolRewrite: 'https',
+        rewrite: (path) => path.replace(/^\/gecko/, '')
+      },
     }
   },
   plugins: [vue()],

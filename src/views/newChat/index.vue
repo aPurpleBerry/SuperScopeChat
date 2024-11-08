@@ -21,6 +21,9 @@
     <div class="chat-input-section">
       <input type="text" id="chat-input" placeholder="Type your message here..." v-model="userQuestion" />
       <button id="send-btn" @click="sendBtnFunc">Send</button>
+
+      <!-- <input type="file" @change="handleFileUpload" />
+      <p>Price sum: {{ priceSumFinal }}</p> -->
     </div>
   </div>
 </template>

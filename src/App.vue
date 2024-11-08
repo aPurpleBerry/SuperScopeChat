@@ -1,29 +1,29 @@
 <script setup>
 // 导入 axios 用于发送 HTTP 请求
-import {  onMounted } from 'vue';
-import axios from 'axios';
+// import {  onMounted } from 'vue';
+// import axios from 'axios';
 
-const getdata = ()=>{
-  axios.post('/rootdata', {
-      query: 'bitcoin'
-    }, {
-      headers: {
-        "apikey": "JNn4uCFRY6kPa4w8prjbjU9xDJxVRtEl",
-        "language": "en",
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => {
-      console.log(response);
+// const getdata = ()=>{
+//   axios.post('/rootdata', {
+//       query: 'BTC'
+//     }, {
+//       headers: {
+//         "apikey": "JNn4uCFRY6kPa4w8prjbjU9xDJxVRtEl",
+//         "language": "en",
+//         "Content-Type": "application/json"
+//       }
+//     })
+//     .then(response => {
+//       console.log(response);
       
-    })
-    .catch(error => {
-      console.error("Error:", error);
-    });
-}
-onMounted(()=>{
-  getdata()
-});
+//     })
+//     .catch(error => {
+//       console.error("Error:", error);
+//     });
+// }
+// onMounted(()=>{
+//   getdata()
+// });
 
 
 </script>

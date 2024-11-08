@@ -1,28 +1,34 @@
-<!-- <template>
-  <div>
-    apitest
-  </div>
-</template>
-
-<script setup>
-
-</script>
-
-<style scoped>
-
-</style> -->
-
 <template>
-  <div>
+  <h1>API TEST</h1>
+  <el-card style="width:90%;">
+    <span style="margin-right: 40px;">交易量数据: 上传csv获取某日的某货币的交易量</span>
     <input type="file" @change="handleFileUpload" />
-    <p>Price sum: {{ priceSumFinal }}</p>
-  </div>
+    <span>Price sum: {{ priceSumFinal }}</span>
+  </el-card>
+  <el-card style="width:90%;">
+    <span style="margin-right: 10px;">ROOTDATA</span>
+    <el-button type="primary" @click="rootdataFunc">INPUT：ETH-TEST</el-button>
+    <pre v-if="ROOTDATAresult" style="height: 200px; overflow-y: auto;background-color: #f7f7f9;">{{ ROOTDATAresult }}</pre>
+  </el-card>
+  <el-card style="width:90%;">
+    <span style="margin-right: 10px;">CoingGecko</span>
+    <el-button type="primary" @click="CoingGeckoFunc">INPUT：bitcoin+usd->TEST</el-button>
+    <pre v-if="CoingGeckoresult" style="height: 200px; overflow-y: auto;background-color: #f7f7f9;">{{ CoingGeckoresult }}</pre>
+  </el-card>
 </template>
+
+<style>
+.el-card {
+  margin-bottom: 15px;
+}
+</style>
 
 <script setup>
 import {ref} from 'vue'
+import axios from 'axios';
 import Decimal from 'decimal.js';
 
+/***********************交易量数据********************/ 
 let priceSumFinal = ref(0)
 
 const handleFileUpload=(event)=> {
@@ -91,6 +97,64 @@ const parseCSVData = (data)=>{
   console.log(priceSum.toString()); // 输出：将 Decimal 转换为字符串
   priceSumFinal.value = priceSum.toString()
 
-  }
+}
   
+/***********************ROOTDATA********************/ 
+let ROOTDATAresult = ref('')
+
+const getrootdata = ()=>{
+  axios.post('/rootdata', {
+      query: 'ETH'
+    }, {
+      headers: {
+        "apikey": "JNn4uCFRY6kPa4w8prjbjU9xDJxVRtEl",
+        "language": "en",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      console.log(response);
+      ROOTDATAresult.value = response
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+}
+
+const rootdataFunc=()=>{
+  getrootdata()
+  // ROOTDATAresult.value = '以ETH为TOKEN的返回值：';
+}
+
+/***********************CoingGecko********************/ 
+let CoingGeckoresult = ref('')
+
+const getCoingGeckodata = ()=>{
+  const options = {
+    method: 'GET',
+    url: '/gecko',
+    headers: {
+      accept: 'application/json',
+      'x-cg-demo-api-key': 'CG-oJwkFK79R45UWpvoP62Gi8uL'
+    },
+    params: {
+      ids: 'bitcoin',
+      vs_currencies: 'usd'
+    } 
+  };
+  
+  axios(options)
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
+const CoingGeckoFunc=()=>{
+  getCoingGeckodata()
+  // ROOTDATAresult.value = '以ETH为TOKEN的返回值：';
+}
+
 </script>
