@@ -10,6 +10,7 @@
   <p id="price">加载中...</p>
   <button @click="test">测试binance</button>
   <button @click="test2">测试shangguigu</button>
+  <button @click="test3">测试qianwen</button>
 </template>
 
 <script setup>
@@ -74,21 +75,21 @@ const parseCSVData = (data) => {
 };
 
 /*************************binance******************************* */
-const ws = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade')
-   // 当有新消息时触发
-   ws.onmessage = (event) => {
-      const trade = JSON.parse(event.data)
-      const price = trade.p; // 获取价格信息
+// const ws = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade')
+//    // 当有新消息时触发
+//    ws.onmessage = (event) => {
+//       const trade = JSON.parse(event.data)
+//       const price = trade.p; // 获取价格信息
 
-      // 在页面中显示价格
-      document.getElementById('price').textContent = `当前价格: ${parseFloat(price).toFixed(2)} USDT`;
-    }
+//       // 在页面中显示价格
+//       document.getElementById('price').textContent = `当前价格: ${parseFloat(price).toFixed(2)} USDT`;
+//     }
 
-    // 当 WebSocket 连接关闭时触发
-    ws.onclose = () => {
-      console.log("WebSocket 连接已关闭");
-    }
-//上述是成功的代码
+//     // 当 WebSocket 连接关闭时触发
+//     ws.onclose = () => {
+//       console.log("WebSocket 连接已关闭");
+//     }
+//上述是成功的代码,需要外网
 
 
 
@@ -149,4 +150,42 @@ const test2 = () =>{
   getGuiGU()
 }
 
+
+async function getChatCompletion(userMessage) {
+  console.log('qianwen');
+  
+    const apiKey = "";  // 若没有配置环境变量，请将 "sk-xxx" 替换为你的实际 API Key
+    // const baseURL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+    
+    try {
+        const response = await axios.post(
+            '/qianwen',
+            {
+                model: "qwen-plus",  // 模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+                messages: [
+                    { role: "system", content: "You are a helpful assistant." },
+                    { role: "user", content: userMessage }
+                ]
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                }
+            }
+        );
+        console.log(response.data.choices[0].message.content);
+        
+
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.log(`错误信息：${error.message}`);
+        console.log("请参考文档：https://help.aliyun.com/zh/model-studio/developer-reference/error-code");
+        return null;
+    }
+}
+
+const test3 = ()=>{
+  getChatCompletion('三天两夜的深圳行程')
+}
 </script>

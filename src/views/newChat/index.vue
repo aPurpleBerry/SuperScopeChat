@@ -31,6 +31,7 @@
 <script setup>
 import { ref } from 'vue';
 import {marked} from 'marked';
+import axios from 'axios';
 
 const analyRepo = [
   {
@@ -211,6 +212,41 @@ const bitcoinData = generateBitcoinReport(mergedBitcoinData);
 const messages = ref([]); // 聊天记录数组
 const userQuestion = ref(''); // 用户输入的内容
 
+// 与通义千问交互分析问题种类
+async function getChatCompletion(userMessage) {
+  console.log('qianwen');
+  
+    const apiKey = "";  // 若没有配置环境变量，请将 "sk-xxx" 替换为你的实际 API Key
+    // const baseURL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+    
+    try {
+        const response = await axios.post(
+            '/qianwen',
+            {
+                model: "qwen-plus",  // 模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+                messages: [
+                    { role: "system", content: "You are a helpful assistant." },
+                    { role: "user", content: userMessage }
+                ]
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                }
+            }
+        );
+        console.log('函数内='+response.data.choices[0].message.content);
+        
+
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.log(`错误信息：${error.message}`);
+        console.log("请参考文档：https://help.aliyun.com/zh/model-studio/developer-reference/error-code");
+        return null;
+    }
+}
+
 // 发送问题的函数
 const sendQuestion = (question) => {
   // 显示用户的问题
@@ -220,7 +256,7 @@ const sendQuestion = (question) => {
   });
 
   // 模拟机器人回复
-  setTimeout(() => {
+  setTimeout(async() => {
     let botReply = '';
     if (question.includes('请生成一份分析报告，分析BitCoin主要看涨和看跌指标')) {
       botReply = marked.parse(generateTokenAnalysisReport(analyRepo[0]))
@@ -232,8 +268,21 @@ const sendQuestion = (question) => {
       botReply = '有关bitcoin的链上数据';
     } else {
       // 默认回复
-      botReply = '这是关于“' + question + '”的自动回复';
+      
+      botReply = await getChatCompletion(`请判断以下问题的意图类型：${question}。
+      如果是咨询类问题，请回答1；
+      如果是数据分析类问题，请回答2；
+      如果是技术支持与开发类问题，请回答3；
+      如果是投资与风险分析类问题，请回答4；
+      如果是合规与安全类问题，请回答5；
+      如果是市场动态与新闻类问题，请回答6；
+      请按照[数字, 其他补充] 的格式来回复。`)
+      // botReply = '这是关于“' + question + '”的自动回复';
+      botReply += '<br><br>目前这个问题暂时处在处理分析问题种类的阶段：1咨询类，2数据分析类，3技术支持与开发类，4投资与风险分析类，5合规与安全类，6市场动态与新闻类。'
+      console.log('botReply = '+botReply);
     }
+    
+    
 
     // 将回复添加到消息数组中
     messages.value.push({

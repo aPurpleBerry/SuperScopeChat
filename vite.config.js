@@ -34,6 +34,11 @@ export default defineConfig({
         // secure: false,  // 确保代理使用 HTTPS 请求
         // protocolRewrite: 'https',
         rewrite: (path) => path.replace(/^\/atguigu/, '')
+      },
+      '/qianwen': {
+        target: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qianwen/, '')
       }
     }
   },

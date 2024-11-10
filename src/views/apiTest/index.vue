@@ -107,7 +107,7 @@ const getrootdata = ()=>{
       query: 'ETH'
     }, {
       headers: {
-        "apikey": "JNn4uCFRY6kPa4w8prjbjU9xDJxVRtEl",
+        "apikey": "",
         "language": "en",
         "Content-Type": "application/json"
       }
@@ -135,7 +135,7 @@ const getCoingGeckodata = ()=>{
     url: '/gecko',
     headers: {
       accept: 'application/json',
-      'x-cg-demo-api-key': 'CG-oJwkFK79R45UWpvoP62Gi8uL'
+      'x-cg-demo-api-key': ''
     },
     params: {
       ids: 'bitcoin',
